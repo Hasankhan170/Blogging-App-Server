@@ -10,7 +10,6 @@ dotenv.config()
 
 const app = express()
 
-
 app.use(cors())
 app.use(express.json())
 app.use(cookieParser())
@@ -19,11 +18,6 @@ app.use("/api/users",UserRouter)
 app.get("/", (req, res) => {
   res.send("Hello World!");
 });
-
-
-
-
-
 
 
 connectDB()

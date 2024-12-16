@@ -4,6 +4,8 @@ import connectDB from './src/db/index.js'
 import cors from 'cors'
 import cookieParser from 'cookie-parser';
 import UserRouter from "./src/routes/user.route.js"
+import BlogRouter from "./src/routes/blog.route.js"
+
 
 dotenv.config()
 
@@ -14,6 +16,8 @@ app.use(cors())
 app.use(express.json())
 app.use(cookieParser())
 app.use("/api/users",UserRouter)
+app.use("/api/blogs",BlogRouter)
+
 
 app.get("/", (req, res) => {
   res.send("Hello World!");

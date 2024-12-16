@@ -42,8 +42,6 @@ const uploadImgToCloudinary = async (filePath) => {
 
 // register
 const registerUser = async (req,res)=>{
-  console.log("Request Body:", req.body);
-  console.log("Request File:", req.file);
     const {username,email,password} = req.body;
     if(!username) return res.status(400).json({message: "username is required"});
     if(!email) return res.status(400).json({message: "email is required"});

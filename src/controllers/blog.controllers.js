@@ -45,6 +45,14 @@ const deleteBlog = async (req,res)=>{
 const editBlog = async (req,res)=>{
     const {id} = req.params;
     const {title,description} = req.body;
+    const blog = await Blogs.findByIdAndUpdate( {_id:id},{...req.body});
+    if(!blog) return res.status(404).json({message: "Blog not found"})
+    res.status(200).json({
+        message : "Blog updated successfully",
+        data: blog
+    })
+
+
 }
 
-export {createBlog,allBlogs ,deleteBlog}
+export {createBlog,allBlogs ,deleteBlog,editBlog}

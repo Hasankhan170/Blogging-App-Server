@@ -40,9 +40,9 @@ const singleBlog = async (req,res)=>{
     try {
         
         const blog = await Blogs.find({ author: userId });
-        if (blog.length === 0) {
-          return res.status(404).json({ message: "No blogs found for this user" });
-        }
+        if (!blog || blog.length === 0) {
+            return res.status(200).json({ data: [] });
+          }
     
         res.status(200).json({
           message: "Blogs retrieved successfully",

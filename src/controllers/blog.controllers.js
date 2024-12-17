@@ -1,3 +1,4 @@
+import mongoose from "mongoose";
 import Blogs from "../models/blog.model.js"
 import User from "../models/user.model.js"
 
@@ -9,17 +10,38 @@ const createBlog = async (req,res)=>{
 
     const user = await User.findById(userId);
     if(!user) return res.status(404).json({message: "user not found"})
-
+    
+        const existingBlog = await Blogs.findOne({ title });
+        if (existingBlog) {
+          return res.status(400).json({ message: "Blog with this title already exists" });
+        }
     const blog = await Blogs.create({
         title,
         description,
         author : user._id
     })
 
-    // await blog.save();
 
     res.status(200).json({
         message : "Blog created successfully",
+        data: blog
+    })
+}
+
+const singleBlog = async (req,res)=>{
+    const {userId} = req.params;
+
+    console.log("Received userId:", userId);
+
+    if(!mongoose.Types.ObjectId.isValid(userId)){
+        return res.status(400).json({message: "Invalid id"})
+    }
+
+    const blog = await Blogs.find({author: userId});
+    if(!blog) return res.status(404).json({message: "Blog not found"})
+
+        res.status(200).json({
+        message : "Single blog",
         data: blog
     })
 }
@@ -42,6 +64,7 @@ const deleteBlog = async (req,res)=>{
         data: blog
     })
 }
+
 const editBlog = async (req,res)=>{
     const {id} = req.params;
     const {title,description} = req.body;
@@ -55,4 +78,4 @@ const editBlog = async (req,res)=>{
 
 }
 
-export {createBlog,allBlogs ,deleteBlog,editBlog}
+export {createBlog,allBlogs ,deleteBlog,editBlog ,singleBlog}

@@ -37,13 +37,21 @@ const singleBlog = async (req,res)=>{
         return res.status(400).json({message: "Invalid id"})
     }
 
-    const blog = await Blogs.find({author: userId});
-    if(!blog) return res.status(404).json({message: "Blog not found"})
-
+    try {
+        
+        const blog = await Blogs.find({ author: userId });
+        if (blog.length === 0) {
+          return res.status(404).json({ message: "No blogs found for this user" });
+        }
+    
         res.status(200).json({
-        message : "Single blog",
-        data: blog
-    })
+          message: "Blogs retrieved successfully",
+          data: blog,
+        });
+      } catch (error) {
+        console.error("Error fetching blogs:", error);
+        res.status(500).json({ message: "Server error" });
+      }
 }
 
 const allBlogs = async (req,res)=>{

@@ -8,7 +8,7 @@ router.post("/register", upload.single("image"), registerUser);
 router.post("/login",loginUser)
 router.post("/logout",logoutUser)
 router.post("/refreshToken",refreshToken)
-app.get("/image/:userId", getUserImage);
+router.get("/image/:userId", allImage);
 // router.post("/uploadImage",upload.single("image"),uploadImage)
 
 

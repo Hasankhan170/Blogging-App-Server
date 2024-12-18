@@ -58,7 +58,7 @@ const singleBlog = async (req,res)=>{
 const allBlogs = async (req, res) => {
     try {
       
-      const blogs = await Blogs.find({}).populate("author", "image username email");
+      const blogs = await Blogs.find({}).populate("author", "image");
   
       res.status(200).json({
         message: "All blogs with user images",

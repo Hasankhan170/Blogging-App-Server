@@ -80,7 +80,11 @@ const loginUser = async (req,res)=>{
     const accessToken = generateAccessToken(user)
     const refreshToken = generateRefreshToken(user)
 
-    res.cookie("refreshToken",refreshToken, {http:true,secure:false})
+    res.cookie("refreshToken", refreshToken, {
+        httpOnly: true,
+        secure: false,  
+        sameSite: "strict", 
+    });
 
     res.status(200).json({
         message: "Logged in successfully",
@@ -109,9 +113,26 @@ const refreshToken = async(req,res)=>{
     res.json({decoded})
 }
 
+// get all img
+const allImage = async(req,res)=>{
+    const {userId} = req.params;
+    try {
+        const user = await User.findById(userId, { image: 1, _id: 0 }); // Fetch only the `image` field
+        if (!user) return res.status(404).json({ message: "User not found" });
+    
+        res.status(200).json({
+          message: "User image fetched successfully",
+          image: user.image,
+        });
+      } catch (error) {
+        console.error("Error fetching user image:", error.message);
+        res.status(500).json({ message: "Server error" });
+      }
+}
 
 
-export {registerUser,loginUser,logoutUser,refreshToken,}
+
+export {registerUser,loginUser,logoutUser,refreshToken,allImage}
 
 
 

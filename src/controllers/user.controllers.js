@@ -114,25 +114,28 @@ const refreshToken = async(req,res)=>{
 }
 
 // get all img
-const allImage = async(req,res)=>{
-    const {userId} = req.params;
-    try {
-        const user = await User.findById(userId, { image: 1, _id: 0 }); // Fetch only the `image` field
-        if (!user) return res.status(404).json({ message: "User not found" });
+// const allImage = async(req,res)=>{
     
-        res.status(200).json({
-          message: "User image fetched successfully",
-          image: user.image,
-        });
-      } catch (error) {
-        console.error("Error fetching user image:", error.message);
-        res.status(500).json({ message: "Server error" });
-      }
-}
+//     try {
+
+//         const users = await User.find({}, { image: 1, _id: 0 });
+//         if (users.length === 0) {
+//           return res.status(404).json({ message: "No users found" });
+//         }
+    
+//         res.status(200).json({
+//           message: "All user images fetched successfully",
+//           images: users.map(user => user.image),
+//         });
+//       } catch (error) {
+//         console.error("Error fetching all user images:", error.message);
+//         res.status(500).json({ message: "Server error" });
+//       }
+// }
 
 
 
-export {registerUser,loginUser,logoutUser,refreshToken,allImage}
+export {registerUser,loginUser,logoutUser,refreshToken}
 
 
 

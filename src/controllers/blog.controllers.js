@@ -54,13 +54,22 @@ const singleBlog = async (req,res)=>{
       }
 }
 
-const allBlogs = async (req,res)=>{
-    const blogs = await Blogs.find({});
-    res.status(200).json({
-        message : "All blogs",
-        data: blogs
-    })
-}
+
+const allBlogs = async (req, res) => {
+    try {
+      
+      const blogs = await Blogs.find({}).populate("author", "image username email");
+  
+      res.status(200).json({
+        message: "All blogs with user images",
+        data: blogs,
+      });
+    } catch (error) {
+      console.error("Error fetching blogs with user images:", error.message);
+      res.status(500).json({ message: "Server error" });
+    }
+  };
+  
 
 const deleteBlog = async (req,res)=>{
     const {id} = req.params;
